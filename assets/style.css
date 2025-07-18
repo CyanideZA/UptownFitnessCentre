@@ -133,6 +133,32 @@ nav ul li a {
     filter: brightness(40%);
 }
 
+.hero#about,
+.hero#story {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero#about::before,
+.hero#story::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 0%,     /* solid black at top */
+    rgba(0, 0, 0, 0) 20%,    /* fade out */
+    rgba(0, 0, 0, 0) 80%,    /* stay transparent */
+    rgba(0, 0, 0, 1) 100%    /* fade back to black at bottom */
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+
 footer {
     background-color: #000; /* optional styling */
     color: #fff;
