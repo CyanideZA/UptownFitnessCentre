@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uptown Fitness Center</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+            integrity="sha512-...your-integrity-hash..."
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+    />
+</head>
+<body>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* Training Services Section */
+    .training-services {
+        padding: 60px 0;
+        background: #000;
+    }
+
+    .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+        color: #fcb900;
+        position: relative;
+        padding-bottom: 15px;
+    }
+
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 3px;
+        background: #fcb900;
+    }
+
+    /* Private 1-on-1 Service Images Styling */
+    .service-card .service-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        transition: transform 0.3s ease;
+    }
+
+    .service-card:hover .service-image img {
+        transform: scale(1.05);
+    }
+
+    /* Specific styling for Private 1-on-1 service images */
+    .services-grid .service-card .service-image {
+        height: 210px;
+        overflow: hidden;
+        background: #000; /* Solid black background instead of gradient */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    /* Remove the icon overlay for cards that have images */
+    .service-card:has(img) .service-image::before {
+        display: none;
+    }
+
+    .service-card:has(img) .service-image i {
+        display: none;
+    }
+
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 30px;
+    }
+
+    .service-card {
+        background: #111;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 0 15px rgba(252, 185, 0, 0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #333;
+    }
+
+    .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 25px rgba(252, 185, 0, 0.4);
+    }
+
+    .service-image {
+        height: 200px;
+        overflow: hidden;
+        background: linear-gradient(135deg, #222, #000);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .service-image::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.3);
+    }
+
+    .service-image i {
+        font-size: 3.5rem;
+        color: #fcb900;
+        z-index: 1;
+    }
+
+    .service-content {
+        padding: 25px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .service-content h4 {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+        color: #fcb900;
+        font-weight: 700;
+    }
+
+    .service-description {
+        color: #ccc;
+        margin-bottom: 15px;
+        line-height: 1.5;
+        flex-grow: 1;
+    }
+
+    .service-price {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #fff;
+        margin: 10px 0;
+        text-shadow: 0 0 10px rgba(252, 185, 0, 0.3);
+    }
+
+    .session-info {
+        color: #fcb900;
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+    }
+
+    .service-features {
+        margin: 15px 0;
+        flex-grow: 1;
+    }
+
+    .service-features li {
+        margin-bottom: 8px;
+        position: relative;
+        padding-left: 25px;
+        color: #ddd;
+        font-size: 0.95rem;
+    }
+
+    .service-features li::before {
+        content: '✓';
+        color: #fcb900;
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+    }
+
+    /* Premium badges */
+    .premium-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: linear-gradient(135deg, #fcb900, #ff8c00);
+        color: #000;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        z-index: 10;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .book-btn {
+        display: block;
+        background: #fcb900;
+        color: #000;
+        text-align: center;
+        padding: 12px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 15px;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .book-btn:hover {
+        background: transparent;
+        color: #fcb900;
+        border-color: #fcb900;
+    }
+
+    .category-header {
+        text-align: center;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+        margin: 60px 0 30px;
+        position: relative;
+        display: inline-block;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 0 20px 10px;
+        border-bottom: 3px solid #fcb900;
+    }
+
+    /* Booking Modal */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s;
+    }
+
+    .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .booking-modal {
+        background: #111;
+        border-radius: 10px;
+        padding: 30px;
+        width: 90%;
+        max-width: 600px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 0 30px rgba(252, 185, 0, 0.4);
+        position: relative;
+        border: 1px solid #333;
+    }
+
+    .close-modal {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 1.8rem;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+
+    .close-modal:hover {
+        color: #fcb900;
+    }
+
+    .modal-title {
+        color: #fcb900;
+        margin-bottom: 25px;
+        text-align: center;
+        font-size: 1.8rem;
+    }
+
+    .booking-form .form-group {
+        margin-bottom: 20px;
+    }
+
+    .booking-form label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #ddd;
+    }
+
+    .booking-form input,
+    .booking-form select,
+    .booking-form textarea {
+        width: 100%;
+        padding: 14px;
+        background: #222;
+        border: 1px solid #444;
+        border-radius: 5px;
+        color: #fff;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+    }
+
+    .booking-form input:focus,
+    .booking-form select:focus,
+    .booking-form textarea:focus {
+        border-color: #fcb900;
+        outline: none;
+    }
+
+    .booking-form textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+
+    .submit-booking {
+        background: #fcb900;
+        color: #000;
+        border: none;
+        padding: 16px;
+        border-radius: 5px;
+        font-weight: bold;
+        width: 100%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 15px;
+        font-size: 1.1rem;
+    }
+
+    .submit-booking:hover {
+        background: #ffa000;
+        transform: translateY(-2px);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .services-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .category-header {
+            font-size: 1.5rem;
+            margin: 40px 0 20px;
+        }
+
+        .service-content {
+            padding: 20px;
+        }
+    }
+</style>
+<div class="page-wrapper">
+    <a href="shop.html" class="top-banner-static">
+        🔥Launch Sale now Active!🔥
+    </a>
+    <header>
+        <div class="container header-left">
+            <div class="logo-wrapper">
+                <img src="Images/FinalLogo.png" alt="Uptown Fitness Logo" class="logo static-logo">
+                <video class="logo animated-logo" muted playsinline preload="auto">
+                    <source src="Images/FinalLogoAnim2.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <div class="header-text-nav">
+                <h1>Uptown Fitness Center</h1>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="train.html">Train With Us</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+</div>
+
+<section class="training-services">
+    <div class="container">
+        <h2 class="section-title">Our Training Services</h2>
+
+        <!-- Private 1-on-1 Training -->
+        <h3 class="category-header">Private 1-on-1 Training Packages</h3>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-image">
+                    <img src="Images/Services1on1 - 1x.png" alt="Private 1on1 1x">
+                </div>
+                <div class="service-content">
+                    <h4>1× per week</h4>
+                    <p class="service-description">Perfect for maintaining fitness with personalized attention and
+                        focused training sessions.</p>
+                    <div class="session-info">4 x 60-minute sessions per month</div>
+                    <div class="service-price">R1 600 / month</div>
+                    <div class="service-features">
+                        <li>Enhance conditioning</li>
+                        <li>Speed & Technique</li>
+                        <li>Gain Strengh & Endurance</li>
+                    </div>
+                    <a href="#" class="book-btn" data-service="Private 1-on-1 (1x/week)" data-price="1600">Book Now</a>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-image">
+                    <img src="Images/Services1on1 - 2x.png" alt="Private 1on1 2x">
+                </div>
+                <div class="service-content">
+                    <h4>2× per week</h4>
+                    <p class="service-description">Ideal for consistent progress with twice-weekly sessions for
+                        accelerated results.</p>
+                    <div class="session-info">8 x 60-minute sessions per month</div>
+                    <div class="service-price">R2 800 / month</div>
+                    <div class="service-features">
+                        <li>Comprehensive striking & footwork</li>
+                        <li>Advanced technique training</li>
+                        <li>Advanced conditioning</li>
+                    </div>
+                    <a href="#" class="book-btn" data-service="Private 1-on-1 (2x/week)" data-price="2800">Book Now</a>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-image">
+                    <div class="premium-badge">POPULAR</div>
+                    <img src="Images/Services1on1 - 3x.png" alt="Private 1on1 3x">
+                </div>
+                <div class="service-content">
+                    <h4>3× per week</h4>
+                    <p class="service-description">Maximum results package with three sessions weekly for serious
+                        transformation.</p>
+                    <div class="session-info">12 x 60-minute sessions per month</div>
+                    <div class="service-price">R3 600 / month</div>
+                    <div class="service-features">
+                        <li>Elite performance training</li>
+                        <li>Elite striking, footwork & technique</li>
+                        <li>Fight Preparations</li>
+                    </div>
+                    <a href="#" class="book-btn" data-service="Private 1-on-1 (3x/week)" data-price="3600">Book Now</a>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-image">
+                    <div class="premium-badge">ELITE</div>
+                    <img src="Images/Services1on1 - Intense.png" alt="Private 1on1 Intense">
+                </div>
+                <div class="service-content">
+                    <h4>5x per week</h4>
+                    <p class="service-description">Become a force of nature with 5x intense sessions per week, not for the faint of heart!</p>
+                    <div class="session-info">20 x sessions per month</div>
+                    <div class="service-price">R5 500</div>
+                    <div class="service-features">
+                        <li>For the advanced athlete</li>
+                        <li>Rapid transformation</li>
+                        <li>Mental & Physical Adaptation</li>
+                    </div>
+                    <a href="#" class="book-btn" data-service="Private 1-on-1 (Intensive Month)" data-price="5500">Book
+                        Now</a>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-image">
+                    <img src="Images/Services1on1 - Traveller.png" alt="Private 1on1 Traveller">
+                </div>
+                <div class="service-content">
+                    <h4>Travelling Athlete</h4>
+                    <p class="service-description">For the fighter on the go with irregular schedules, flexibility without
+                        commitment.</p>
+                    <div class="session-info">15 sessions, valid 3 months</div>
+                    <div class="service-price">R4 500</div>
+                    <div class="service-features">
+                        <li>No expiration worries</li>
+                        <li>Use when you're in town</li>
+                        <li>Perfect for frequent travelers</li>
+                    </div>
+                    <a href="#" class="book-btn" data-service="Private 1-on-1 (Traveller Pack)" data-price="4500">Book
+                        Now</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Boxercise -->
+        <h3 class="category-header">Signature Boxercise Classes</h3>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-image">
+                    <img src="Images/ServicesBoxercise - 1x.png" alt="Boxercise 1x">
+                </div>
+                <div class="service-content">
+                    <h4>Drop-in Session</h4>
+                    <p class="service-description">Try our high-energy boxercise class with no commitment. Perfect for
+                        beginners!</p>
+                    <div class="session-info">1x Drop-In Boxercise session</div>
+                    <div class="service-price">R100</div>
+                    <div class="service-features">
+                        <li>Great workout for all ages</li>
+                        <li>All equipment provided</li>
+                        <li>All fitness levels welcome</li>
+                    </div>
+                    <a href="#" class="book-btn" data-service="Boxercise Drop-in" data-price="100">Book Now</a>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-image">
+                    <div class="premium-badge">POPULAR</div>
+                    <img src="Images/ServicesBoxercise - 2x.png" alt="Boxercise 2x">
+                </div>
+                <div class="service-content">
+                    <h4>3× per week</h4>
+                    <p class="service-description">Our most popular boxercise package for consistent fat burning and
+                        fitness improvement.</p>
+                    <div class="session-info">12 x sessions per month</div>
+                    <div class="service-price">R750 / month</div>
+                    <div class="service-features">
+                        <li>Speed, Technique, Power</li>
+                        <li>Full body workout</li>
+                        <li>Stress relief through boxing</li>
+                    </div>
+                    <a href="#" class="book-btn" data-service="Boxercise (3x/week)" data-price="750">Book Now</a>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-image">
+                    <div class="premium-badge">ELITE</div>
+                    <img src="Images/ServicesBoxercise - 3x.png" alt="Boxercise 3x">
+                </div>
+                <div class="service-content">
+                    <h4>Unlimited Classes</h4>
+                    <p class="service-description">Access to all boxercise classes throughout the month for the ultimate
+                        fitness commitment.</p>
+                    <div class="session-info">UNLIMITED sessions per month</div>
+                    <div class="service-price">R1250 / month</div>
+                    <div class="service-features">
+                        <li>Unlimited boxercise classes</li>
+                        <li>Varied intensity levels</li>
+                        <li>Makeup classes available</li>
+                    </div>
+                    <a href="#" class="book-btn" data-service="Unlimited Boxercise" data-price="1250">Book Now</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Group Training -->
+        <h3 class="category-header">Signature Saturday Bootcamp</h3>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-image">
+                    <img src="Images/ServicesBootcamp - 1x.png" alt="Saturday Bootcamp 1x">
+                </div>
+                <div class="service-content">
+                    <h4>Saturday Bootcamp</h4>
+                    <p class="service-description">High-intensity outdoor bootcamp combining cardio, strength, and
+                        boxing elements.</p>
+                    <div class="session-info">1x Drop-In Bootcamp session</div>
+                    <div class="service-price">R150 / session</div>
+                    <div class="service-features">
+                        <li>90-minute session</li>
+                        <li>Outdoor training</li>
+                        <li>Team challenges</li>
+                    </div>
+                    <a href="#" class="book-btn" data-service="Saturday Bootcamp" data-price="150">Book Now</a>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-image">
+                    <div class="premium-badge">POPULAR</div>
+                    <img src="Images/ServicesBootcamp - 2x.png" alt="Saturday Bootcamp 2x">
+                </div>
+                <div class="service-content">
+                    <h4>Bring a Friend</h4>
+                    <p class="service-description">Special partner rate for you and a training buddy to enjoy bootcamp
+                        together.</p>
+                    <div class="session-info">1x Drop-In Bootcamp session for 2 people</div>
+                    <div class="service-price">R250 for two</div>
+                    <div class="service-features">
+                        <li>Motivation partnership</li>
+                        <li>Team workouts</li>
+                        <li>Friendly competition</li>
+                    </div>
+                    <a href="#" class="book-btn" data-service="Bootcamp Buddy Package" data-price="250">Book Now</a>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-image">
+                    <div class="premium-badge">ELITE</div>
+                    <img src="Images/ServicesBootcamp - 3x.png" alt="Saturday Bootcamp 3x">
+                </div>
+                <div class="service-content">
+                    <h4>Monthly Bootcamp Pass</h4>
+                    <p class="service-description">Commit to fitness with access to all Saturday bootcamps throughout
+                        the month.</p>
+                    <div class="session-info">4-5 x Bootcamp sessions per month</div>
+                    <div class="service-price">R500 / month</div>
+                    <div class="service-features">
+                        <li>4-5 sessions monthly</li>
+                        <li>Progress tracking</li>
+                        <li>Nutrition guidance</li>
+                    </div>
+                    <a href="#" class="book-btn" data-service="Monthly Bootcamp Pass" data-price="500">Book Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal-overlay" id="booking-modal">
+    <div class="booking-modal">
+        <button class="close-modal" id="close-modal">&times;</button>
+        <h2 class="modal-title">Book Your Training Session</h2>
+        <form class="booking-form" id="booking-form">
+            <input type="hidden" id="selected-service" name="service">
+            <input type="hidden" id="selected-price" name="price">
+
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email">
+            </div>
+
+            <div class="form-group">
+                <label for="session-type">Session Type</label>
+                <select id="session-type" name="session-type" required>
+                    <option value="">Select session type</option>
+                    <option value="single">Single Session</option>
+                    <option value="package">Package of 5 Sessions</option>
+                    <option value="package10">Package of 10 Sessions</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="preferred-date">Preferred Date</label>
+                <input type="date" id="preferred-date" name="preferred-date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="preferred-time">Preferred Time</label>
+                <select id="preferred-time" name="preferred-time" required>
+                    <option value="">Select time</option>
+                    <option value="06:00">6:00 AM</option>
+                    <option value="07:00">7:00 AM</option>
+                    <option value="08:00">8:00 AM</option>
+                    <option value="09:00">9:00 AM</option>
+                    <option value="10:00">10:00 AM</option>
+                    <option value="16:00">4:00 PM</option>
+                    <option value="17:00">5:00 PM</option>
+                    <option value="18:00">6:00 PM</option>
+                    <option value="19:00">7:00 PM</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Additional Notes</label>
+                <textarea id="message" name="message" placeholder="Any specific goals or requirements?"></textarea>
+            </div>
+
+            <button type="submit" class="submit-booking">Submit Booking Request</button>
+        </form>
+    </div>
+</div>
+
+<section id="gallery" class="section light-bg">
+    <div class="container">
+        <h2>Gallery</h2>
+        <div class="gallery-scroll">
+            <img src="Images/Promo1.png" alt="Cardio Zone">
+            <img src="Images/Sponsor1.png" alt="Boxing Zone">
+            <img src="Images/Sponsor2.png" alt="Crossfit Area">
+            <img src="Images/Promo2.png" alt="Studio Classes">
+            <img src="Images/FinalLogo.png" alt="Studio Classes">
+            <img src="Images/Location.png" alt="Free Weights">
+            <img src="Images/Promo4.png" alt="Crossfit Area">
+            <img src="Images/Gym1.png" alt="Crossfit Area">
+            <img src="Images/Gym2.png" alt="Locker Room">
+            <img src="Images/Oumpie2.png" alt="Reception">
+        </div>
+    </div>
+</section>
+
+
+<section class="google-reviews">
+    <h2>Hear What Our Members Are Saying! 🎉</h2>
+    <div class="review-slider">
+
+        <!-- Review -->
+        <div class="review">
+            <div class="review-header">
+                <div class="avatar-letter">O</div>
+                <div>
+                    <strong>Otlile Ntlailane</strong>
+                    <div class="stars">★★★★★</div>
+                    <small>Posted 1 year ago</small>
+                </div>
+            </div>
+            <p class="review-text">
+                Sign-up and thank me later! I’ve been training here for two months and it has changed the way I
+                approach fitness. Oompie is the best in the game...
+            </p>
+        </div>
+
+        <div class="review">
+            <div class="review-header">
+                <div class="avatar-letter">W</div>
+                <div>
+                    <strong>Wikus Jacobsz</strong>
+                    <div class="stars">★★★★★</div>
+                    <small>Posted 1 year ago</small>
+                </div>
+            </div>
+            <p class="review-text">
+                Oempie has a wealth of knowledge and experience in the sport of boxing...
+            </p>
+        </div>
+
+        <div class="review">
+            <div class="review-header">
+                <div class="avatar-letter">M</div>
+                <div>
+                    <strong>Mohau Nkondo</strong>
+                    <div class="stars">★★★★☆</div>
+                    <small>Posted 1 month ago</small>
+                </div>
+            </div>
+            <p class="review-text">
+                I’ve been having one-on-one sessions with Oompie for a few years...
+            </p>
+        </div>
+
+        <div class="review">
+            <div class="review-header">
+                <div class="avatar-letter">P</div>
+                <div>
+                    <strong>Potz “NinjaBoy!!!!” Zilla</strong>
+                    <div class="stars">★★★★★</div>
+                    <small>Posted 1 year ago</small>
+                </div>
+            </div>
+            <p class="review-text">
+                From the training to the coaching and diet plans, everything is on point...
+            </p>
+        </div>
+
+        <div class="review">
+            <div class="review-header">
+                <div class="avatar-letter">P</div>
+                <div>
+                    <strong>Petro Oliver</strong>
+                    <div class="stars">★★★★☆</div>
+                    <small>Posted 3 months ago</small>
+                </div>
+            </div>
+            <p class="review-text">
+                Were introduced by a friend to Uptown Fitness Centre...
+            </p>
+        </div>
+
+        <div class="review">
+            <div class="review-header">
+                <div class="avatar-letter">J</div>
+                <div>
+                    <strong>Jaco Smit</strong>
+                    <div class="stars">★★★★★</div>
+                    <small>Posted 8 months ago</small>
+                </div>
+            </div>
+            <p class="review-text">
+                Oumpie is a great coach. Probably the best workout I can think of to do in 45 mins...
+            </p>
+        </div>
+
+        <div class="review">
+            <div class="review-header">
+                <div class="avatar-letter">U</div>
+                <div>
+                    <strong>U S</strong>
+                    <div class="stars">★★★★★</div>
+                    <small>Posted 2 months ago</small>
+                </div>
+            </div>
+            <p class="review-text">
+                The best workout you could want, there is nothing routine...
+            </p>
+        </div>
+
+        <div class="review">
+            <div class="review-header">
+                <div class="avatar-letter">J</div>
+                <div>
+                    <strong>Jayden Mraz</strong>
+                    <div class="stars">★★★★★</div>
+                    <small>Posted 11 months ago</small>
+                </div>
+            </div>
+            <p class="review-text">
+                Very experienced coach and good facilities!
+            </p>
+        </div>
+
+        <div class="review">
+            <div class="review-header">
+                <div class="avatar-letter">I</div>
+                <div>
+                    <strong>Ithabeleng Kopo</strong>
+                    <div class="stars">★★★★★</div>
+                    <small>Posted 8 months ago</small>
+                </div>
+            </div>
+            <p class="review-text">
+                Oumpie is a phenomenal coach, very patient, engaging and fun...
+            </p>
+        </div>
+    </div>
+    <section class="review-invite">
+        <h3>Enjoyed Your Session? ⭐</h3>
+        <p>Walked in strong, crawled out stronger?<br><br> Let us (and the world) know how it went – leave us a review!
+        </p>
+        <a href="https://www.google.com/search?q=UPTOWN+FITNESS+CENTER&sca_esv=b8cbb6e19436b965&biw=1536&bih=695&sxsrf=AE3TifM-2TuiDGw44bv7qFuVzn40hUT1-g%3A1753028033242&ei=wRV9aJnCDvTAi-gPj_amuQ4&ved=0ahUKEwjZps-p6suOAxV04AIHHQ-7KecQ4dUDCBA&oq=UPTOWN+FITNESS+CENTER&gs_lp=Egxnd3Mtd2l6LXNlcnAiFVVQVE9XTiBGSVRORVNTIENFTlRFUjIEECMYJzIEECMYJzILEC4YgAQYxwEYrwEyBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yBhAAGBYYHkjUI1DkCFiLC3ADeAGQAQCYAbkDoAHiBqoBAzQtMrgBDMgBAPgBAZgCBKACxwPCAgoQABiwAxjWBBhHwgINEAAYsAMY1gQYRxjJA8ICDhAAGIAEGLADGJIDGIoFmAMAiAYBkAYHkgcFMy40LTGgB4sVsgcDNC0xuAe3A8IHBTItMy4xyAca&sclient=gws-wiz-serp"
+           target="_blank" class="review-btn">
+            🖤 Leave a Google Review!
+        </a>
+    </section>
+</section>
+
+<section id="contact-section" class="contact-section">
+    <div class="container">
+        <h2>Let's Get You in the Ring!</h2>
+        <p class="subtext">Questions? Ready to join? Reach out to us on your preferred platform.</p>
+
+        <!-- WhatsApp Button (kept as is) -->
+        <div class="whatsapp-container">
+            <a href="https://wa.me/27676035511" target="_blank" class="whatsapp-btn">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp"/>
+                Chat with Us on WhatsApp!
+            </a>
+        </div>
+
+        <!-- Additional Social Media Buttons -->
+        <div class="social-media-buttons">
+            <a href="https://www.instagram.com/uptownfitnesscenter/?hl=en" target="_blank"
+               class="social-btn instagram-btn">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram"/>
+                Follow on Instagram
+            </a>
+
+            <a href="https://www.facebook.com/p/Uptown-Fitness-Center-100083291778962/" target="_blank"
+               class="social-btn facebook-btn">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
+                     alt="Facebook"/>
+                Message on Facebook
+            </a>
+        </div>
+    </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Logo animation
+    document.querySelectorAll('.logo-wrapper').forEach(wrapper => {
+      const video = wrapper.querySelector('.animated-logo');
+      const staticLogo = wrapper.querySelector('.static-logo');
+
+      let isHovered = false;
+      let pendingFadeOut = false;
+
+      video.load();
+      video.pause();
+      video.currentTime = 0;
+
+      wrapper.addEventListener('mouseenter', () => {
+        isHovered = true;
+        pendingFadeOut = false;
+
+        staticLogo.style.opacity = '0';
+        video.style.opacity = '1';
+        video.loop = true;
+        video.play();
+      });
+
+      wrapper.addEventListener('mouseleave', () => {
+        isHovered = false;
+        pendingFadeOut = true;
+        video.loop = false;
+      });
+
+      video.addEventListener('ended', () => {
+        if (pendingFadeOut && !isHovered) {
+          video.style.opacity = '0';
+          staticLogo.style.opacity = '1';
+          video.currentTime = 0;
+          video.pause();
+        }
+      });
+    });
+
+    // Booking modal functionality
+    const bookButtons = document.querySelectorAll('.book-btn');
+    const bookingModal = document.getElementById('booking-modal');
+    const closeModal = document.getElementById('close-modal');
+    const selectedService = document.getElementById('selected-service');
+    const selectedPrice = document.getElementById('selected-price');
+    const bookingForm = document.getElementById('booking-form');
+
+    bookButtons.forEach(button => {
+      button.addEventListener('click', function (e) {
+        e.preventDefault();
+        const service = this.getAttribute('data-service');
+        const price = this.getAttribute('data-price');
+
+        selectedService.value = service;
+        selectedPrice.value = price;
+
+        bookingModal.classList.add('active');
+      });
+    });
+
+    closeModal.addEventListener('click', function () {
+      bookingModal.classList.remove('active');
+    });
+
+    bookingModal.addEventListener('click', function (e) {
+      if (e.target === bookingModal) {
+        bookingModal.classList.remove('active');
+      }
+    });
+
+    bookingForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      const service = formData.get('service');
+      const price = formData.get('price');
+      const name = formData.get('name');
+      const phone = formData.get('phone');
+      const email = formData.get('email');
+      const sessionType = formData.get('session-type');
+      const date = formData.get('preferred-date');
+      const time = formData.get('preferred-time');
+      const message = formData.get('message');
+
+      // Create WhatsApp message
+      const whatsappMessage = `Hello! I would like to book a training session:%0A%0A` +
+          `*Service:* ${service}%0A` +
+          `*Price:* R${price}%0A` +
+          `*Name:* ${name}%0A` +
+          `*Phone:* ${phone}%0A` +
+          `${email ? `*Email:* ${email}%0A` : ''}` +
+          `*Session Type:* ${sessionType}%0A` +
+          `*Preferred Date:* ${date}%0A` +
+          `*Preferred Time:* ${time}%0A` +
+          `${message ? `*Additional Notes:* ${message}%0A` : ''}`;
+
+      // Open WhatsApp with pre-filled message
+      window.open(`https://wa.me/27676035511?text=${whatsappMessage}`, '_blank');
+
+      // Close modal
+      bookingModal.classList.remove('active');
+
+      // Reset form
+      bookingForm.reset();
+    });
+  });
+</script>
+
+<script>
+  // WhatsApp chat button functionality
+  document.getElementById('whatsappBtn').addEventListener('click', () => {
+    const phoneNumber = '2793681305';
+    const message = encodeURIComponent('Hello! I would like to get more information about Uptown Fitness Center.');
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    window.open(whatsappUrl, '_blank');
+  });
+
+  // Form submission handler (simple alert for demo)
+  document.getElementById('contactForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert('Thank you for contacting us! We will get back to you soon.');
+    e.target.reset();
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll('.logo-wrapper').forEach(wrapper => {
+      const video = wrapper.querySelector('.animated-logo');
+      const staticLogo = wrapper.querySelector('.static-logo');
+
+      let isHovered = false;
+      let pendingFadeOut = false;
+
+      video.load();
+      video.pause();
+      video.currentTime = 0;
+
+      wrapper.addEventListener('mouseenter', () => {
+        isHovered = true;
+        pendingFadeOut = false;
+
+        staticLogo.style.opacity = '0';
+        video.style.opacity = '1';
+        video.loop = true;
+        video.play();
+      });
+
+      wrapper.addEventListener('mouseleave', () => {
+        isHovered = false;
+        pendingFadeOut = true;
+        video.loop = false;
+      });
+
+      video.addEventListener('ended', () => {
+        if (pendingFadeOut && !isHovered) {
+          video.style.opacity = '0';
+          staticLogo.style.opacity = '1';
+          video.currentTime = 0;
+          video.pause();
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const galleryImages = document.querySelectorAll('.gallery-scroll img');
+    const modal = document.getElementById('galleryModal');
+    const modalImg = document.getElementById('modalImage');
+
+    galleryImages.forEach(img => {
+      img.addEventListener('click', () => {
+        modalImg.src = img.src;
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // prevent background scroll
+      });
+    });
+
+    modal.addEventListener('click', () => {
+      modal.style.display = 'none';
+      modalImg.src = '';
+      document.body.style.overflow = ''; // restore scroll
+    });
+  });
+
+</script>
+
+<!-- Modal for enlarged image -->
+<div class="gallery-modal" id="galleryModal">
+    <img src="" alt="Enlarged Image" id="modalImage"/>
+</div>
+
+
+<footer>
+    <div class="container">
+        <p>&copy; 2025 Uptown Fitness Center 👑</p>
+        <p>Rights Reserved | Results Earned! </p>
+    </div>
+</footer>
+</div>
+</body>
+</html>

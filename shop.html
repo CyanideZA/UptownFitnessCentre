@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uptown Fitness - Pro Shop</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Stripe.js -->
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+<div class="page-wrapper">
+    <a href="#news" class="top-banner-static">
+        🔥Join Oumpie's Corner Crew with a donation Today!🔥
+    </a>
+    <header>
+        <div class="container header-left">
+            <div class="logo-wrapper">
+                <img src="Images/FinalLogo.png" alt="Uptown Fitness Logo" class="logo static-logo">
+                <video class="logo animated-logo" muted playsinline preload="auto">
+                    <source src="Images/FinalLogoAnim2.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <div class="header-text-nav">
+                <h1>Uptown Pro Shop</h1>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="train.html">Train With Us</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="shop-hero">
+        <div class="container">
+            <h2>Official Uptown Fitness Gear</h2>
+            <p>Premium boxing equipment and apparel</p>
+        </div>
+    </section>
+
+    <section class="shop-container">
+        <div class="container">
+            <div class="product-grid">
+                <!-- Product cards same as before -->
+                <!-- Boxing Gloves -->
+                <div class="product-card">
+                    <img src="gloves.jpg" alt="Custom Boxing Gloves">
+                    <h3>Custom Boxing Gloves</h3>
+                    <p class="price">R1,299.00</p>
+                    <p>Premium leather gloves, Uptown Logo</p>
+                    <button class="add-to-cart" data-product="Custom Boxing Gloves" data-price="1299">Add to Cart</button>
+                </div>
+
+                <!-- Hand Wraps -->
+                <div class="product-card">
+                    <img src="wraps.jpg" alt="Premium Hand Wraps">
+                    <h3>Premium Hand Wraps</h3>
+                    <p class="price">R199.00</p>
+                    <p>180" Mexican-style hand wraps</p>
+                    <button class="add-to-cart" data-product="Premium Hand Wraps" data-price="199">Add to Cart</button>
+                </div>
+
+                <!-- Headgear -->
+                <div class="product-card">
+                    <img src="headgear.jpg" alt="Competition Headgear">
+                    <h3>Competition Headgear</h3>
+                    <p class="price">R899.00</p>
+                    <p>Venum-style competition headgear</p>
+                    <button class="add-to-cart" data-product="Competition Headgear" data-price="899">Add to Cart</button>
+                </div>
+
+                <!-- Training Shirt -->
+                <div class="product-card">
+                    <img src="shirt.jpg" alt="Uptown Training Shirt">
+                    <h3>Uptown Training Shirt</h3>
+                    <p class="price">R349.00</p>
+                    <p>Moisture-wicking performance shirt</p>
+                    <button class="add-to-cart" data-product="Uptown Training Shirt" data-price="349">Add to Cart</button>
+                </div>
+
+                <!-- Boxing Shoes -->
+                <div class="product-card">
+                    <img src="shoes.jpg" alt="Uptown Boxing Shoes">
+                    <h3>Uptown Boxing Shoes</h3>
+                    <p class="price">R649.00</p>
+                    <p>High Performance Barefoot Boxing Shoes</p>
+                    <button class="add-to-cart" data-product="Uptown Boxing Shoes" data-price="649">Add to Cart</button>
+                </div>
+
+                <!-- Uptown Car Sticker -->
+                <div class="product-card">
+                    <img src="sticker.jpg" alt="Uptown Car Sticker">
+                    <h3>Uptown Car Sticker</h3>
+                    <p class="price">R49.00</p>
+                    <p>High Quaility, UV Protected Car Sticker</p>
+                    <button class="add-to-cart" data-product="Uptown Training Shirt" data-price="49">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Cart Section -->
+            <div class="cart-container">
+                <h3>Your Order</h3>
+                <div class="cart-items">
+                    <!-- Items will be added here by JavaScript -->
+                </div>
+                <div class="cart-total">
+                    <p>Total: <span id="cart-total">R0.00</span></p>
+                </div>
+
+                <!-- Payment Method Selection -->
+                <div class="payment-method">
+                    <h4>Payment Method</h4>
+                    <div class="payment-options">
+                        <label>
+                            <input type="radio" name="payment-method" value="stripe" checked>
+                            <span>Credit/Debit Card</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="payment-method" value="eft">
+                            <span>Bank Transfer (EFT)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Shipping Form -->
+                <form id="checkout-form" class="checkout-form">
+                    <h4>Shipping Details</h4>
+                    <input type="text" name="name" placeholder="Full Name" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="tel" name="phone" placeholder="Phone Number" required>
+                    <textarea name="address" placeholder="Shipping Address" required></textarea>
+                    <textarea name="customization" placeholder="Customization Instructions (if any)"></textarea>
+
+                    <!-- Stripe Payment Element (hidden for EFT) -->
+                    <div id="stripe-payment-element" class="stripe-element">
+                        <!-- Stripe injects the Payment Element here -->
+                    </div>
+
+                    <!-- EFT Instructions (hidden by default) -->
+                    <div id="eft-instructions" class="eft-instructions" style="display: none;">
+                        <h5>EFT Payment Instructions</h5>
+                        <p>Please make payment to:</p>
+                        <p><strong>Bank:</strong> Your Bank Name</p>
+                        <p><strong>Account Name:</strong> Uptown Fitness Center</p>
+                        <p><strong>Account Number:</strong> 1234567890</p>
+                        <p><strong>Branch Code:</strong> 123456</p>
+                        <p><strong>Reference:</strong> Your Name + Order #</p>
+                        <p>Email proof of payment to <strong>orders@uptownfitness.co.za</strong></p>
+                    </div>
+
+                    <button type="submit" id="submit-order" class="checkout-btn">
+                        <span id="button-text">Pay with Card</span>
+                        <span id="button-spinner" class="spinner" style="display: none;"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Uptown Fitness Center 👑</p>
+            <p>Rights Reserved | Results Earned!</p>
+        </div>
+    </footer>
+</div>
+
+<!-- Custom JavaScript -->
+<script src="shop.js"></script>
+</body>
+</html>
