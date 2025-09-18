@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Uptown Fitness - Pro Shop</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Stripe.js -->
-    <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
 <div class="page-wrapper">
@@ -136,19 +134,16 @@
                     <p>Total: <span id="cart-total">R0.00</span></p>
                 </div>
 
-                <!-- Payment Method Selection -->
-                <div class="payment-method">
-                    <h4>Payment Method</h4>
-                    <div class="payment-options">
-                        <label>
-                            <input type="radio" name="payment-method" value="stripe" checked>
-                            <span>Credit/Debit Card</span>
-                        </label>
-                        <label>
-                            <input type="radio" name="payment-method" value="eft">
-                            <span>Bank Transfer (EFT)</span>
-                        </label>
-                    </div>
+                <!-- EFT Instructions -->
+                <div id="eft-instructions" class="eft-instructions">
+                    <h4>EFT Payment Instructions</h4>
+                    <p>Please make payment to:</p>
+                    <p><strong>Bank:</strong> First National Bank</p>
+                    <p><strong>Account Name:</strong> Uptown Fitness Center</p>
+                    <p><strong>Account Number:</strong> 63116923946</p>
+                    <p><strong>Branch Code:</strong> 250655</p>
+                    <p><strong>Reference:</strong> Your Name + Order #</p>
+                    <p>Email proof of payment to <strong>orders@uptownfitness.co.za</strong></p>
                 </div>
 
                 <!-- Shipping Form -->
@@ -160,26 +155,8 @@
                     <textarea name="address" placeholder="Shipping Address" required></textarea>
                     <textarea name="customization" placeholder="Customization Instructions (if any)"></textarea>
 
-                    <!-- Stripe Payment Element (hidden for EFT) -->
-                    <div id="stripe-payment-element" class="stripe-element">
-                        <!-- Stripe injects the Payment Element here -->
-                    </div>
-
-                    <!-- EFT Instructions (hidden by default) -->
-                    <div id="eft-instructions" class="eft-instructions" style="display: none;">
-                        <h5>EFT Payment Instructions</h5>
-                        <p>Please make payment to:</p>
-                        <p><strong>Bank:</strong> Your Bank Name</p>
-                        <p><strong>Account Name:</strong> Uptown Fitness Center</p>
-                        <p><strong>Account Number:</strong> 1234567890</p>
-                        <p><strong>Branch Code:</strong> 123456</p>
-                        <p><strong>Reference:</strong> Your Name + Order #</p>
-                        <p>Email proof of payment to <strong>orders@uptownfitness.co.za</strong></p>
-                    </div>
-
                     <button type="submit" id="submit-order" class="checkout-btn">
-                        <span id="button-text">Pay with Card</span>
-                        <span id="button-spinner" class="spinner" style="display: none;"></span>
+                        <span id="button-text">Place Order</span>
                     </button>
                 </form>
             </div>
@@ -195,6 +172,136 @@
 </div>
 
 <!-- Custom JavaScript -->
-<script src="shop.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize cart from localStorage or empty array
+    let cart = JSON.parse(localStorage.getItem('uptownCart')) || [];
+    const cartItemsEl = document.querySelector('.cart-items');
+    const cartTotalEl = document.getElementById('cart-total');
+    const checkoutForm = document.getElementById('checkout-form');
+    const submitButton = document.getElementById('submit-order');
+    const buttonText = document.getElementById('button-text');
+
+    // Add to cart functionality with improved feedback
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+      button.addEventListener('click', function() {
+        const product = this.getAttribute('data-product');
+        const price = parseFloat(this.getAttribute('data-price'));
+        const originalText = this.textContent;
+
+        // Add to cart array
+        cart.push({
+          id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
+          name: product,
+          price: price
+        });
+
+        // Save to localStorage
+        localStorage.setItem('uptownCart', JSON.stringify(cart));
+
+        updateCart();
+
+        // Visual feedback
+        this.textContent = '✓ Added!';
+        this.classList.add('added-to-cart');
+        setTimeout(() => {
+          this.textContent = originalText;
+          this.classList.remove('added-to-cart');
+        }, 2000);
+      });
+    });
+
+    // Update cart display with remove functionality
+    function updateCart() {
+      // Clear current items
+      cartItemsEl.innerHTML = '';
+
+      if (cart.length === 0) {
+        cartItemsEl.innerHTML = '<p class="empty-cart">Your cart is empty</p>';
+        cartTotalEl.textContent = 'R0.00';
+        return;
+      }
+
+      // Add each item with remove button
+      cart.forEach((item, index) => {
+        const itemEl = document.createElement('div');
+        itemEl.className = 'cart-item';
+        itemEl.dataset.id = item.id;
+        itemEl.innerHTML = `
+                <span class="cart-item-name">${item.name}</span>
+                <span class="cart-item-price">R${item.price.toFixed(2)}</span>
+                <button class="remove-item" data-id="${item.id}" aria-label="Remove item">
+                    &times;
+                </button>
+            `;
+        cartItemsEl.appendChild(itemEl);
+      });
+
+      // Update total
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      cartTotalEl.textContent = `R${total.toFixed(2)}`;
+
+      // Add event listeners to remove buttons
+      document.querySelectorAll('.remove-item').forEach(button => {
+        button.addEventListener('click', function() {
+          const itemId = this.getAttribute('data-id');
+          cart = cart.filter(item => item.id !== itemId);
+          localStorage.setItem('uptownCart', JSON.stringify(cart));
+          updateCart();
+        });
+      });
+    }
+
+    // Form submission handler
+    checkoutForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+      }
+
+      const formData = new FormData(this);
+
+      const order = {
+        customer: {
+          name: formData.get('name'),
+          email: formData.get('email'),
+          phone: formData.get('phone'),
+          address: formData.get('address'),
+          customization: formData.get('customization')
+        },
+        items: [...cart],
+        total: cart.reduce((sum, item) => sum + item.price, 0),
+        paymentMethod: 'eft',
+        date: new Date().toISOString(),
+        orderRef: 'UPT' + Date.now().toString().slice(-6)
+      };
+
+      processEFTPayment(order);
+    });
+
+    // Process EFT payment
+    function processEFTPayment(order) {
+      // Clear cart
+      cart = [];
+      localStorage.removeItem('uptownCart');
+      updateCart();
+      checkoutForm.reset();
+
+      // Show confirmation
+      alert(`Order #${order.orderRef} received! Please make EFT payment to:\n\n` +
+          `Bank: First National Bank\n` +
+          `Account Name: Uptown Fitness Center\n` +
+          `Account Number: 63116923946\n` +
+          `Branch Code: 250655\n` +
+          `Reference: ${order.customer.name} ${order.orderRef}\n\n` +
+          `Email proof to: orders@uptownfitness.co.za`);
+    }
+
+    // Initialize cart on page load
+    updateCart();
+  });
+</script>
 </body>
 </html>
