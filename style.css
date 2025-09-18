@@ -1317,16 +1317,30 @@ body {
     transition: transform 0.3s ease;
 }
 
-.product-card:hover {
-    transform: translateY(-5px);
+/* Image window */
+.product-image {
+    width: 100%;
+    max-width: 350px;
+    height: 250px;          /* fixed window size */
+    border-radius: 12px;    /* rounded window always visible */
+    overflow: hidden;       /* enforces the rounded shape */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 1rem;
+    background: #ffffff;    /* subtle background behind smaller images */
 }
 
-.product-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 4px;
-    margin-bottom: 15px;
+/* Image inside */
+.product-image img {
+    max-width: 95%;
+    max-height: 95%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.product-image img:hover {
+    transform: scale(1.05);
 }
 
 .product-card h3 {
